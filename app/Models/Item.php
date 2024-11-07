@@ -24,6 +24,8 @@ public function expenditures()
     return $this->hasMany(Expenditure::class);
 }
 
+
+
 }
 
 

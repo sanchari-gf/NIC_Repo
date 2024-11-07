@@ -21,6 +21,7 @@ class AuthController extends Controller
             // Check if the authenticated user has the 'Guest' role
             $user = Auth::user();
            
+           
             if ($user->role === 'Guest') {
                 return redirect()->route('guest.items.index');
             }

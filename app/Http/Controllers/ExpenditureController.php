@@ -47,12 +47,22 @@ class ExpenditureController extends Controller
         return view('expenditures.index', compact('expenditures'));
     }
 
+
+    
+
   // Method to show the expenditures for a specific item
+
+
+
 public function show($item_id)
 {
     $item = Item::findOrFail($item_id);
-    $expenditures = $item->expenditures;  // Assuming a relationship is defined
+
+    // Get only the expenditures for the current user for this specific item
+    $expenditures = $item->expenditures()->where('user_id', auth()->id())->get();
+
     return view('expenditures.index', compact('item', 'expenditures'));
 }
+
 }
 

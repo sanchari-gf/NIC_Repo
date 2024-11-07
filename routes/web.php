@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExpenditureController;
 
+use App\Http\Controllers\Auth\RegisterController;
+
 use App\Models\ItemGroup;
 
 
@@ -74,7 +76,7 @@ Route::middleware(['auth'])->get('/dashboard', function () {
 // Public Routes
 Route::get('/', function () {
     return view('welcome');
-})->name('home');
+});
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -83,6 +85,10 @@ Route::post('logout', function () {
     Auth::logout();
     return redirect()->route('login');
 })->name('logout');
+
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
 
 
 

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('guest'); // Add this line to create the role column
+            $table->string('role')->default('Guest'); // Add this line to create the role column
         });
     }
 

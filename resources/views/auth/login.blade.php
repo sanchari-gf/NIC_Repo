@@ -18,6 +18,8 @@
     <input type="password" name="password" id="password" required>
     
     <button type="submit">Login</button>
+    <br>
+    <a class="nav-link" href="{{ route('register') }}">{{ __('Register here') }}</a>
 </form>
 
 </body>
