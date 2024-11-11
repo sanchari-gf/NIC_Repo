@@ -26,15 +26,22 @@ class ItemGroupController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|unique:item_groups|max:255'
-        ]);
+{
+    // Validate the item group name to be unique
+    $request->validate([
+        'name' => 'required|unique:item_groups|max:255'
+    ], [
+        'name.unique' => 'This Item Group name already exists. Please choose a different name.'
+    ]);
 
-        ItemGroup::create($request->all());
+    // If validation passes, create the new item group
+    ItemGroup::create($request->all());
 
-        return redirect()->route('item-groups.index')->with('success', 'Item Group created successfully.');
-    }
+    // Redirect to the index with a success message
+    return redirect()->route('item-groups.index')->with('success', 'Item Group created successfully.');
+}
+
+    
 
     public function edit(ItemGroup $itemGroup)
     {

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('Guest'); // Add this line to create the role column
+            $table->enum('role', ['Admin', 'Guest'])->nullable(false)->default(null)->change();
         });
     }
 
@@ -22,7 +22,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role'); // Drop the role column on rollback
+            $table->enum('role', ['Admin', 'Guest'])->nullable(false)->default('Guest')->change();
         });
     }
+    
 };

@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('expenditures', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Foreign key to users
-            $table->foreignId('item_id')->constrained()->onDelete('cascade'); // Foreign key to items
-            $table->decimal('amount', 10, 2); // Amount of expenditure
-            $table->text('description')->nullable(); // Optional description
-            $table->timestamps();
-        });
-        
+        if (!Schema::hasTable('expenditures')) {
+            Schema::create('expenditures', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')->constrained()->onDelete('cascade');
+                $table->foreignId('item_id')->constrained()->onDelete('cascade');
+                $table->decimal('amount', 10, 2);
+                $table->text('description')->nullable();
+                $table->timestamps();
+            });
+        }
     }
+    
 
     /**
      * Reverse the migrations.

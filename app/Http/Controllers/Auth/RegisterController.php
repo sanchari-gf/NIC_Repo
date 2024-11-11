@@ -31,6 +31,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+
+            'role' => ['required', 'in:Admin,Guest'], // Role validation
         ]);
     }
 
@@ -42,14 +44,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // Create user with default role as "Guest"
-        return User::create([
+        \Log::info('Data received in create method:', $data); // Logs the full data array
+        
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role' => 'Guest',
+            
+            'role' => $data['role'],
         ]);
+    
+        \Log::info('User created with role:', ['role' => $user->role]); // Logs the role after creation
+        
+        return $user;
     }
+
+
 
     /**
      * The method executed after a successful registration.
@@ -61,6 +71,8 @@ class RegisterController extends Controller
     protected function registered($request, $user)
     {
         // Flash success message to the session
+
+        
         session()->flash('success', 'Registration successful! Please log in.');
 
         // Redirect to the login page

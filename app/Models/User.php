@@ -11,8 +11,15 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles;
 
+    // protected $cast = [
+    //     'password' => 'encrypted',
+    // ];
+
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 
+        'email', 
+        'password',
+        'role', // Add role here
     ];
 
     /**
@@ -31,10 +38,9 @@ class User extends Authenticatable
         return $this->hasRole('Guest');
     }
 
-
     public function expenditures()
-{
-    return $this->hasMany(Expenditure::class);
-}
+    {
+        return $this->hasMany(Expenditure::class);
+    }
 }
 

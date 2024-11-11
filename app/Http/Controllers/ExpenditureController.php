@@ -35,7 +35,7 @@ class ExpenditureController extends Controller
         ]);
 
         // Redirect the user back to the item page, or another page as needed
-        return redirect()->route('expenditures.show', ['item_id' => $item_id])
+        return redirect()->route('guest.items.index', ['item_id' => $item_id])
                          ->with('success', 'Expenditure added successfully!');
     }
 
@@ -61,7 +61,55 @@ public function show($item_id)
     // Get only the expenditures for the current user for this specific item
     $expenditures = $item->expenditures()->where('user_id', auth()->id())->get();
 
-    return view('expenditures.index', compact('item', 'expenditures'));
+    // Calculate the total expenditure for the item
+    $totalExpenditure = $expenditures->sum('amount');
+
+    return view('expenditures.index', compact('item', 'expenditures', 'totalExpenditure'));
+}
+
+public function destroy($id)
+{
+    $expenditure = Expenditure::findOrFail($id);
+    $expenditure->delete();
+
+   // Assuming you have an `item_id` that the `expenditures.show` route requires
+   $itemId = $expenditure->item_id; // Or however you get the item_id related to the expenditure
+
+   return redirect()->route('expenditures.show', ['item_id' => $itemId])
+       ->with('success', 'Expenditure deleted successfully');
+}
+
+
+
+public function edit($id)
+{
+    $expenditure = Expenditure::findOrFail($id);
+    $items = Item::all(); // Retrieve all items or filter them as needed
+
+    return view('expenditures.edit', compact('expenditure', 'items'));
+}
+
+
+
+public function update(Request $request, $id)
+{
+    $expenditure = Expenditure::findOrFail($id);
+    // Assuming you have an `item_id` that the `expenditures.show` route requires
+   $itemId = $expenditure->item_id; // Or however you get the item_id related to the expenditure
+
+    // Validate and update
+    $request->validate([
+        'amount' => 'required|numeric',
+        'item_id' => 'required|exists:items,id',
+    ]);
+
+    $expenditure->update([
+        'amount' => $request->amount,
+        'item_id' => $request->item_id,
+    ]);
+
+    return redirect()->route('expenditures.show', ['item_id' => $itemId])
+    ->with('success', 'Expenditure updated successfully');
 }
 
 }

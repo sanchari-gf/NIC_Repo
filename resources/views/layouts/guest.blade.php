@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+    <title>Guest Panel</title>
     
     <!-- Including the CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"> <!-- Tailwind CSS or other styling -->
@@ -22,7 +22,7 @@
             <!-- Left-aligned section for brand or title -->
             <div class="container text-center">
         <a class="navbar-brand fw-bold mx-auto" href="{{ url('/') }}">
-            Admin Panel
+            Guest Panel
         </a>
     </div>
             
@@ -60,6 +60,8 @@
                                 {{ Auth::user()->name }}
                             </a>
 
+                     
+
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
@@ -67,7 +69,7 @@
                                     {{ __('Logout') }}
                                 </a>
 
-                                <a class="dropdown-item" href="{{ route('profile_edit_admin') }}">
+                                <a class="dropdown-item" href="{{ route('profile_edit') }}">
     {{ __('My Profile') }}
 </a>
 
